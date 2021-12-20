@@ -1,0 +1,39 @@
+{
+  "name": "sing_up_sign_in",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joilton07/sing-in-sing-up.git"
+  },
+  "author": "joilton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joilton07/sing-in-sing-up/issues"
+  },
+  "homepage": "https://github.com/Joilton07/sing-in-sing-up#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^2.1.1",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "jest": "^27.4.5",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.1.6"
+  }
+}
