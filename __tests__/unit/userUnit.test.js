@@ -5,6 +5,23 @@ const mongoose = require('mongoose')
 
 const User = require('../../src/app/models/user')
 
+const userData = {
+  id: '61c0db23ac1f288bfa9e317d',
+  name: 'winzer',
+  email: 'test@test.com',
+  password: '123123',
+  phones: [
+    {
+      number: '25836914',
+      ddd: '88'
+    },
+    {
+      number: '35715969',
+      ddd: '88'
+    }
+  ]
+}
+
 describe('User Unitario', () => {
   afterAll(async () => {
     try {
@@ -15,62 +32,30 @@ describe('User Unitario', () => {
   })
 
   test('should encrypt user password', async () => {
-    const data = {
-      name: 'winzer',
-      email: 'test@test.com',
-      password: '123123',
-      phones: [
-        {
-          number: '25836914',
-          ddd: '88'
-        },
-        {
-          number: '35715969',
-          ddd: '88'
-        }
-      ]
-    }
-
-    const user = await User.create(data)
+    const user = await User.create(userData)
 
     const compareHash = await bcrypt.compare('123123', user.password)
 
     expect(compareHash).toBe(true)
   })
   test('must check if the email already exists', async () => {
-    const data = {
-      name: 'winzer',
-      email: 'test@test.com',
-      password: '123123',
-      phones: [
-        {
-          number: '25836914',
-          ddd: '88'
-        },
-        {
-          number: '35715969',
-          ddd: '88'
-        }
-      ]
-    }
-
-    const emailAlreadyExists = await User.findOne({
+    const user = await User.findOne({
       where: {
-        email: data.email
+        email: userData.email
       }
     })
 
-    expect(emailAlreadyExists.email).toEqual(data.email)
+    expect(user.email).toEqual(userData.email)
   })
   test('should verify that the user is passing the correct password that was registered', async () => {
-    const data = {
+    const loginData = {
       email: 'test@test.com',
       password: '123123'
     }
 
     const user = await User.findOne({
       where: {
-        email: data.email
+        email: loginData.email
       }
     })
 
@@ -79,24 +64,10 @@ describe('User Unitario', () => {
     expect(compareHash).toBe(false)
   })
   test('should check using id if the user exists', async () => {
-    const data = {
-      id: '61c0db23ac1f288bfa9e317d',
-      name: 'winzer',
-      email: 'test@test.com',
-      password: '123123',
-      phones: [
-        {
-          number: '25836914',
-          ddd: '88'
-        },
-        {
-          number: '35715969',
-          ddd: '88'
-        }
-      ]
-    }
-    const userExists = await User.findById(data.id)
+    const { id } = userData
 
-    expect(userExists.id).toBe(data.id)
+    const userExists = await User.findById(id)
+
+    expect(userExists.id).toBe(userData.id)
   })
 })
