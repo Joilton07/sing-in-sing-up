@@ -6,7 +6,7 @@ const authConfig = require('../../config/auth')
 const User = require('../models/user')
 
 class UserController {
-  async store (req, res) {
+  async createUser (req, res) {
     const { email } = req.body
 
     if (await User.findOne({ email })) {
@@ -26,30 +26,26 @@ class UserController {
   }
 
   async login (req, res) {
-    const data = req.body
+    const { email, password } = req.body
 
-    const user = await User.findOne({
-      where: {
-        email: data.email
-      }
-    })
+    const user = await User.findOne({ email })
 
     if (!user) {
       return res.status(401).json({ error: 'Usuário e/ou senha inválidos' })
     }
 
-    const passwordCorrect = await bcrypt.compare(data.password, user.password)
+    const passwordCorrect = await bcrypt.compare(password, user.password)
 
     if (!passwordCorrect) {
       return res.status(401).json({ error: 'Usuário e/ou senha inválidos' })
     }
 
-    const { id, name, email, phones, lastLogin, createdAt, updatedAt, token } = user
+    const { id, name, userEmail = email, phones, lastLogin, createdAt, updatedAt, token } = user
 
     return res.status(201).json({
       id,
       name,
-      email,
+      userEmail,
       phones,
       lastLogin,
       createdAt,
@@ -60,7 +56,7 @@ class UserController {
     })
   }
 
-  async show (req, res) {
+  async showUser (req, res) {
     const { id } = req.params
 
     const user = await User.findById(id)

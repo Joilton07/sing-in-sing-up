@@ -9,13 +9,13 @@ module.exports = async (req, res, next) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'token not provided' })
+    return res.status(401).json({ error: 'Não autorizado' })
   }
 
   const token = authHeader.split(' ')[1]
 
   if (!token) {
-    return res.status(201).json({ error: 'Badly formatted token' })
+    return res.status(401).json({ error: 'Não autorizado' })
   }
 
   // Verificando o token
